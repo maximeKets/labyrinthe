@@ -16,8 +16,11 @@ function makeRows(rows, cols) {
     for (let i = 0; i < caseId.length; i++) {
         let wallId = document.getElementById(caseId[i])
         let wall = wallId.parentElement;
-        wall.className="wall" }
+        wall.className="wall"
     }
+
+
+}
 
 function makeGoal(caseId){
 
@@ -32,24 +35,34 @@ function makeStart(caseId){
     wall.className="start";
 }
 
-function goTop(caseId){
+const wall = document.querySelectorAll("div")
+console.log(wall)
+class Game {
+    constructor(rows, colls){
+
+        makeRows(rows, colls);
+        let chemin = [];
+        makeWall([2,9,16,30,37,11,18,32,12,26,27,41,14]);
+        makeGoal(19);
+        makeStart(1)
+    }
+    // pour faire retour verifier que numéro est plus petit que le précédent
+     goTop(caseId){
+        return [caseId-this.colls, "T"]
+    }
+     goRight(caseId){
+        return [caseId+1, "R"]
+
+    }
+     goDown(caseId){
+        return [caseId+this.colls, "D"]
+
+    }
+     goLeft(caseId){
+        return [caseId-1, "L"]
+    }
 
 }
-function goRight(){
-    return caseId+colls
-
-}
-function goDown(){
-
-}
-function goLeft(){
-
-}
-function startGame(rows, colls){
-    makeRows(rows, colls);
-    let chemin = [];
-    makeWall([2,9,16,30,37,11,18,32,12,26,27,41,14 ]);
-    makeGoal(19);
-    makeStart(1)
-}
-startGame(6, 7);
+let game = new Game(6, 7)
+game.colls=7
+game.rows=6

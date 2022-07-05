@@ -1,6 +1,6 @@
 :root {
-    --grid-cols: 1;
-    --grid-rows: 1;
+    --grid-cols: 0.5;
+    --grid-rows: 0.5;
 }
 
 #container {
@@ -10,19 +10,18 @@
 }
 body{
     text-align: center;
-
 }
 
-.grid-item {
+.O {
     border: 1px solid #ddd;
     padding: 1em;
 }
-.wall{
+.I{
     background-color: black;
 }
-.goal{
+.G{
     background-color:red;
 }
-.start{
+.S{
     background-color:green;
 }

@@ -1,7 +1,9 @@
     let vertical = 6
     let horizontal = 7
     let lab = Array(vertical).fill().map(()=>Array(horizontal).fill(" ")).reverse();
-
+    let indice =1
+    let gagne = 0
+    let bestRoute = 0
 
 function createWall(){
 
@@ -16,64 +18,122 @@ function createWall(){
 
 function choiceAvailable(y, x){
 let choice = []
+    let solution = 0
 
-    if (left(x)>0 && lab[y][left(x)] === " "){
+    if (left(x)>0 && lab[y][left(x)] === " " || lab[y][left(x)] === "G"  ){
+    if (lab[y][left(x)] === "G"){
+    gagne ++
+    }
         choice.left = 1
+        solution ++
     }
     if ( right(x)< horizontal && lab[y][right(x)] === " " ){
         choice.right = 1
+        solution ++
     }
     if (up(y)>0 && lab[up(y)][x] === " " ){
         choice.up = 1
+        solution ++
     }
-    if ( down(y)< vertical  && lab[down(y)][x] === " " ){
+    if ( downPossible(y) && lab[downPossible(y)][x] === " " ){
         choice.down = 1
+        solution ++
     }
-
-    return choice
+    if (solution === 0) {
+        bestRoute --
+        if (lab[y][left(x)] < indice){
+            choice.left = 1
+        }
+        if (lab[y][right(x)] < indice){
+            choice.right = 1
+        }
+        if (lab[up(y)][x] < indice){
+            choice.up = 1
+        }
+        if (downPossible(y)){
+            if(lab[downPossible(y)][x] === " " ){
+                choice.down = 1
+            }
+        }
+    }
+        return choice
 }
 
-function moving(y, x, indice){
+function moving(y, x){
 
     let possibility = choiceAvailable(y,x)
-    lab[y][x] = indice
 
-
-    indice ++
-
+    if (lab[y][x] === " ") {
+        lab[y][x] = indice
+        indice ++
+        bestRoute ++
+    }
 
     if (possibility.right){
         return [y,right(x)]
     }
     else if (possibility.down ){
-return [down(y),x]
-    }
-    else if (possibility.left){
-return [y,left(x)]
+    return [down(y),x]
     }
     else if (possibility.up ){
-return [up(y), x]
+        return [up(y), x]
+    }
+    else if (possibility.left){
+    return [y,left(x)]
     }
 }
+
 function play(){
-    let idX = 0
     let idY = 0
-    let indice =1
-    while (lab[idY][idX] !== "G"){
-        let move =  moving(idY, idX, indice)
-        console.table(lab)
+    let idX = 0
+    while (gagne !== 1){
+        let move =  moving(idY, idX)
         idY = move[0]
         idX = move[1]
-   }
-
- //   console.log(lab[idY][idX])
-}
+        console.table(lab)
+        }
+        console.log("GGWP")
+    console.log(bestRoute)
+    }
 
 
 
 function down (y){
-        return y+1
+    return y+1
 }
+function downPossible(y){
+        if (y >= vertical-1){
+        return false
+        }
+        else {
+            return down(y)
+        }
+}
+    function upPossible(y){
+        if (y <= 0){
+            return false
+        }
+        else {
+            return up(y)
+        }
+    }
+    function leftPossible(x){
+        if (x <= 0){
+            return false
+        }
+        else {
+            return left(x)
+        }
+    }
+    function rightPossible(x){
+        if (x >= horizontal-1){
+            return false
+        }
+        else {
+            return left(x)
+        }
+    }
+
 function up (y){
         return y-1
 }
